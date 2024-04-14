@@ -2,7 +2,8 @@ import {asyncHandler} from '../utils/asyncHandler.js'
 
 const registerUser = asyncHandler( async (req,res)=>{
     // Get user details from frontend
-    req.body
+    const {fullname,email,username,password} = req.body
+    console.log(email,fullname);
     // validation - (not empty)
     
     // Check if user already exists by username or email
