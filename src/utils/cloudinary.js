@@ -20,6 +20,7 @@ const uploadOnCloudinary = async(localFilePath)=>{
 
     } catch (error) {
         fs.unlinkSync(localFilePath);
+        /* Remove the lcoally saved temporray file as the upload operation got failed. */
         return null;
     }
 }
