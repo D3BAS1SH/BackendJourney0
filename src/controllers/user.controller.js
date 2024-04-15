@@ -8,6 +8,8 @@ const registerUser = asyncHandler( async (req,res)=>{
     // Get user details from frontend
     const {fullname,email,username,password} = req.body
     console.log(email,fullname);
+
+
     // validation - (not empty)
     /* if(fullname===""){
         throw new ApiError(400,'full name is required.');
@@ -18,8 +20,9 @@ const registerUser = asyncHandler( async (req,res)=>{
         throw new ApiError(400,'All fields are required.');
     }
     console.log("Input validation Checking Success");
-    // Check if user already exists by username or email
 
+
+    // Check if user already exists by username or email
     const existedUser = await User.findOne({
         $or:[{ username },{ email }]
     })
@@ -28,8 +31,8 @@ const registerUser = asyncHandler( async (req,res)=>{
     }
     console.log("Check if the user already exits in the database check : success");
 
-    // check for images, check for avatar
 
+    // check for images, check for avatar
     const avatarLocalPath = req.files?.avatar[0]?.path;
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
@@ -38,8 +41,8 @@ const registerUser = asyncHandler( async (req,res)=>{
     }
     console.log("Checking for images and avatar");
 
-    // upload them to cloudinary, avatar
 
+    // upload them to cloudinary, avatar
     const avatarStatus = await uploadOnCloudinary(avatarLocalPath);
     const coverImageStatus = await uploadOnCloudinary(coverImageLocalPath);
 
@@ -48,19 +51,20 @@ const registerUser = asyncHandler( async (req,res)=>{
     }
     console.log("Upload on cloudinary success");
 
-    // create user object - create entry in DB.
 
+    // create user object - create entry in DB.
     const userStatus = await User.create({fullname,avatar:avatarStatus.url,coverImage:coverImageStatus?.url || "",email,password,username:username.toLowerCase()})
     console.log("Database qurey added");
-    // remove password and refresh token field from response.
 
+
+    // remove password and refresh token field from response.
     const userCreated = await User.findById(userStatus._id).select(
         "-password -refreshToken"
     )
     console.log("Filtering password and refreshtoken");
 
-    // check for user creation.
 
+    // check for user creation.
     if(!userCreated){
         throw new ApiError(400,"Something went wrong in server thank you.")
     }
