@@ -85,4 +85,18 @@ const registerUser = asyncHandler( async (req,res)=>{
     return res.status(201).json(new ApiResponse(200,userCreated,"User created succefully."))
 })
 
-export {registerUser}
+const loginUser = asyncHandler(async(req,res)=>{
+    //Username or email and password -> req.body
+
+    //Username or email way access
+
+    //find the user
+
+    //password check
+
+    //access and refreshToken
+
+    //send cookies
+})
+
+export {registerUser,loginUser}
