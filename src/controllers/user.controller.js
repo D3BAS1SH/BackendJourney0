@@ -308,7 +308,7 @@ const getUserChannelProfile=asyncHandler(async(req,res)=>{
     if(!username?.trim()){
         throw new ApiError(400,"Username is missed or invalid.")
     }
-
+    
     const channel =await User.aggregate([
         {
             $match:{
@@ -333,17 +333,17 @@ const getUserChannelProfile=asyncHandler(async(req,res)=>{
         },
         {
             $addFields:{
-                $subscriberCount:{
+                subscriberCount:{
                     $size:"$subscribers"
                 },
-                $subscriberToCount:{
+                subscriberToCount:{
                     $size:"$subscribedTo"
                 },
-                $isSubscribed:{
+                isSubscribed:{
                     $cond:{
-                        $if:{$in:[req.user?._id,"$subscribers.subscribers"]},
-                        $then:true,
-                        $else:false
+                        if:{$in:[req.user?._id,"$subscribers.subscribers"]},
+                        then:true,
+                        else:false
                     }
                 }
             }
